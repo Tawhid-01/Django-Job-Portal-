@@ -1,0 +1,66 @@
+<!doctype html>
+{% load crispy_forms_tags %}
+<html lang="en" data-bs-theme="light">
+    <head>
+        <title>Title</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- Bootstrap CSS v5.3.8 -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+            crossorigin="anonymous"
+        />
+    </head>
+
+    <body>
+       <h2 class="text-center mb-4">{{ title }}</h2>
+                                
+                                <form class="container" action="" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    
+                                    <!-- Django Form Container -->
+                                    <div class="mb-3">
+                                        {{ form |crispy }}
+                                    </div>
+
+                                    <div class="d-grid gap-2">
+                                        <button type="submit" class="btn btn-outline-primary">
+                                            {{ btn }}
+                                        </button>
+                                    </div>
+                                </form>
+                                
+                                {% if title == "Registration" %}
+                                <div class="text-center mt-3">
+                                    <small>Already have an account? <a href="{% url 'login' %}">Login here</a></small>
+                                </div>
+                                {% else %}
+                                {% if title == "Login Form" %}
+                                <div class="text-center mt-3">
+                                    <small>Don't have any account? <a href="{% url 'register' %}">Register here</a></small>
+                                </div>
+                                
+                                {% endif %}
+
+                                {% endif %}
+
+
+
+
+
+
+        <footer>
+            <!-- place footer here -->
+        </footer>
+        <!-- Bootstrap JavaScript Bundle (includes Popper) -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+            crossorigin="anonymous"
+        ></script>
+    </body>
+</html>

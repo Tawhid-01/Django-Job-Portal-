@@ -1,59 +1,58 @@
 <!doctype html>
 <html lang="en" data-bs-theme="dark">
-    <head>
-       <title>Dashboard | {{ user.display_name }}</title>
-        <!-- Required meta tags -->
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+    <title>{% block title %}Dashboard{% endblock %} | JobPortal</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <!-- Bootstrap CSS v5.3.8 -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-            crossorigin="anonymous"
-        />
-        <style>
-        body { background-color: #f8f9fa; }
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <style>
+        body { overflow-x: hidden; }
         #wrapper { display: flex; width: 100%; align-items: stretch; }
-        #sidebar {
-            min-width: 250px;
-            max-width: 250px;
+        #content {
+            width: 100%;
             min-height: 100vh;
-            background: #212529; /* Dark Sidebar */
-            color: #3e3d3d;
+            padding: 20px;
+            background-color: #121212; /* Darker background for content */
+        }
+        /* Sidebar Styling */
+        #sidebar {
+            min-width: 260px;
+            max-width: 260px;
+            background: #1a1d20;
             transition: all 0.3s;
         }
-        #sidebar .sidebar-header { padding: 20px; background: #1a1d20; border-bottom: 1px solid #343a40; }
-        #sidebar ul.components { padding: 20px 0; }
-        #sidebar ul li a {
-            padding: 12px 20px;
-            display: block;
-            color: #adb5bd;
-            text-decoration: none;
-        }
-        #sidebar ul li a:hover { color: #fff; background: #343a40; }
-        #sidebar ul li.active > a { color: #fff; background: #0d6efd; } /* Primary Blue for active */
-        #content { width: 100%; padding: 20px; }
+        .nav-link { color: #adb5bd !important; transition: 0.2s; }
+        .nav-link:hover { color: #fff !important; background: #343a40; border-radius: 5px; }
+        .nav-link.active { color: #fff !important; background: #0d6efd !important; border-radius: 5px; }
     </style>
-    </head>
+</head>
 
-    <body class="bg-black">
-        <header>
-            {% include "base/sidebar.html" %}
-            
-        </header>
-        <main>
-            {% block content %}{% endblock content %}
-        </main>
-        <footer>
-            <!-- place footer here -->
-        </footer>
-        <!-- Bootstrap JavaScript Bundle (includes Popper) -->
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-            crossorigin="anonymous"
-        ></script>
-    </body>
+<body>
+    <div id="wrapper">
+        <!-- Sidebar Inclusion -->
+        {% include "base/sidebar.html" %}
+
+        <!-- Page Content -->
+        <div id="content">
+            <header class="mb-4 border-bottom pb-3 d-flex justify-content-between align-items-center">
+                <h2 class="h4">{{ title|default:"Welcome Back" }}</h2>
+                <div class="user-info small text-secondary">
+                    Logged in as: <span class="text-white fw-bold">{{ request.user.username }}</span>
+                </div>
+            </header>
+
+            <main>
+                {% block content %}{% endblock content %}
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

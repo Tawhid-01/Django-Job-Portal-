@@ -30,6 +30,9 @@ class JobPostForm(forms.ModelForm):
         model = JobPostModel
         fields = '__all__'
         exclude = ['user']
+        widgets = {
+            'deadline': forms.DateTimeInput(attrs={'type': 'datetime-local'})
+        }
 
 # class ApplyJobForm(form.ModelForm):
 #     class Meta:

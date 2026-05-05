@@ -68,13 +68,19 @@
                 <hr class="border-secondary my-4">
 
                 {% if request.user.user_type == 'JobSeeker' %}
-                    <button class="btn btn-primary w-100 py-2 fw-bold">Apply Now</button>
+                <a class="btn btn-primary w-100 py-2 fw-bold" href="{% url "applyJob" job.id %}">Apply Now</a>
                 {% elif request.user.user_type == 'Recruiter' and job.user == request.user %}
-                    <a class="btn btn-outline-warning w-100 mb-2" href="{% url "editjob" job.id %}">Edit Posting</a>
+    <a class="btn btn-outline-warning w-100 mb-2" href="{% url 'editjob' job.id %}">
+        Edit Posting
+    </a>
+    
+    <!-- Corrected Line Below -->
+    <a href="{% url 'showApplicant' job.id %}" class="btn btn-outline-info w-100 mb-2">
+        <i class="bi bi-people me-2"></i> View Applicants
+    </a>
 
-                    
-                    <button class="btn btn-outline-danger w-100">Close Vacancy</button>
-                {% endif %}
+    <button class="btn btn-outline-danger w-100">Close Vacancy</button>
+{% endif %}
             </div>
         </div>
     </div>

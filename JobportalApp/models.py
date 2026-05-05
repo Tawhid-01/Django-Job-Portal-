@@ -29,7 +29,7 @@ class R_ProfileModel(models.Model):
         return self.name
     
 class S_ProfileModel(models.Model):
-    user = models.OneToOneField(UserModel, on_delete=models.CASCADE)
+    user = models.OneToOneField(UserModel, on_delete=models.CASCADE , related_name='seeker')
     name = models.CharField(max_length=100,null=True,blank=True)
     contact = models.CharField(max_length=100,null=True,blank=True)
     address = models.CharField(max_length=100,null=True,blank=True)
@@ -44,6 +44,7 @@ class JobPostModel(models.Model):
     company_name = models.CharField(max_length=100,null=True,blank=True)
     title = models.CharField(max_length=100,null=True,blank=True)
     number_of_openings = models.CharField(max_length=100,null=True,blank=True)
+    position = models.CharField(max_length=100,null=True,blank=True)
     location = models.CharField(max_length=100,null=True,blank=True)
     job_type = models.CharField(max_length=100,null=True,blank=True)
     salary = models.CharField(max_length=100,null=True,blank=True)

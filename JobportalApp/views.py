@@ -153,3 +153,37 @@ def jobPostPage(req):
         'btn':'Submit'
     }
     return render(req,'base/base_form.html',context)
+
+
+def applyJobPage(req,id):
+    user = req.user.seeker 
+    job = JobPostModel.objects.get(id=id)
+
+    ApplyJobModel.objects.create(
+        job_seeker = user,
+        job = job,
+        status = 'Pending'
+
+        )
+    messages.success(req,'Applied Successfully')
+    return redirect('dashboard')
+
+  
+    
+
+def viewApplicantPage(req):
+    data = ApplyJobModel.objects.filter(job_seeker=req.user.seeker)
+    context = {
+        'jobs':data
+    }
+    return render(req,'page/myApplications.html',context)
+
+
+def showApplicant(req,id):
+    job_id = JobPostModel.objects.get(id=id)
+    applicant = ApplyJobModel.objects.filter(job=job_id)
+
+    context = {
+        'applicants':applicant,
+    }
+    return render(req,'page/showApplicant.html',context)

@@ -22,9 +22,14 @@
             <li class="mb-2">
                 <a href="{% url "jobpost" %}" class="nav-link"><i class="bi bi-plus-circle me-2"></i> Post a Job</a>
             </li>
-            <li class="mb-2">
-                <a href="#" class="nav-link"><i class="bi bi-people me-2"></i> View Applicants</a>
-            </li>
+            <!-- sidebar.html -->
+<li class="mb-2">
+    
+        {% comment %} <a href="{% url "showApplicant job.id" %}" class="nav-link">
+            <i class="bi bi-people me-2"></i> View Applicants
+        </a> {% endcomment %}
+ 
+</li>
 
         {% elif request.user.user_type == 'JobSeeker' %}
             <li class="small text-uppercase text-secondary mb-2 px-2" style="font-size: 0.75rem;">Seeker Tools</li>
@@ -33,6 +38,10 @@
                     <i class="bi bi-person-badge me-2"></i> My Resume
                 </a>
             </li>
+            <li class="mb-2">
+                <a href=" {% url "viewApplicant" %}" class="nav-link"><i class="bi bi-search me-2"></i> My Applys</a>
+            </li>
+           
             <li class="mb-2">
                 <a href="#" class="nav-link"><i class="bi bi-search me-2"></i> Browse Jobs</a>
             </li>

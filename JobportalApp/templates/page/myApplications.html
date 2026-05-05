@@ -1,0 +1,66 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Stats Row -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card bg-primary text-white shadow-sm">
+                <div class="card-body">
+                    {{request.user}} 🏢Job Apply List
+                    <!-- You can add stats here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Jobs Table/List -->
+    <div class="card bg-dark border-secondary shadow">
+        <div class="card-header border-secondary d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 text-white">Recent Job Listings</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-dark table-hover mb-0">
+                    <thead>
+                        <tr class="text-secondary">
+                            <th>Title</th>
+                            <th>Company</th>
+                            <th>Location</th>
+                            <th>Type</th>
+                            <th>Deadline</th>
+                            <th>Status</th>  <!-- Added Status column -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for j in jobs %}
+                        <tr>
+                            <td class="fw-bold text-white">{{ j.job.title }}</td>
+                            <td>{{ j.job.company_name }}</td> 
+                            <td>{{ j.job.location }}</td> 
+                            <td><span class="badge bg-secondary">{{ j.job.job_type }}</span></td>
+                            <td class="text-info">{{ j.job.deadline|date:"M d, Y" }}</td>
+                            <td>
+                                <span class="badge {% if j.status == 'Pending' %}bg-warning
+                                                 {% elif j.status == 'Shortlisted' %}bg-info
+                                                 {% elif j.status == 'Accepted' %}bg-success
+                                                 {% elif j.status == 'Rejected' %}bg-danger
+                                                 {% else %}bg-secondary{% endif %}">
+                                    {{ j.status }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-4">
+                                You haven't applied for any jobs yet.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

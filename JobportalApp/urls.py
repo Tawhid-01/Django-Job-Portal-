@@ -14,6 +14,9 @@ urlpatterns = [
     path('jobdetail/<int:id>/',viewJobPage,name='jobdetail'),
     path('editjob/<int:id>/',editJobPage,name='editjob'),
     path('deletejob/<int:id>/',deleteJobPage,name='deletejob'),
-    # path('jobapply/<int:id>/',jobApplyPage,name='jobapply'),
+    path('jobapply/<int:id>/',applyJobPage,name='applyJob'),
+
+    path('view-apply/',viewApplicantPage,name='viewApplicant'),
+    path('showApplicant/<int:id>/',showApplicant,name='showApplicant'),
     
 ]

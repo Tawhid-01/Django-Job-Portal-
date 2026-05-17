@@ -1,0 +1,71 @@
+{% extends "base/base.html" %}
+
+
+{% block content %}
+{% include "base/massage.html" %}
+<div class="container-fluid">
+    <!-- Stats Row -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card bg-primary text-white shadow-sm">
+                <div class="card-body">
+                    <h6 class="text-uppercase small">{% if request.user.user_type == 'Recruiter' %}My Postings{% else %}Available Jobs{% endif %}</h6>
+                    <h2 class="mb-0">{{ stats.total }}</h2>
+                </div>
+            </div>
+        </div>
+        <!-- Add more stat cards here as you build more models -->
+    </div>
+
+    <!-- Jobs Table/List -->
+    <div class="card bg-dark border-secondary shadow">
+        <div class="card-header border-secondary d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 text-white">Recent Job Listings</h5>
+            {% if request.user.user_type == 'Recruiter' %}
+                <a href="#" class="btn btn-sm btn-success">+ Post New Job</a>
+            {% endif %}
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-dark table-hover mb-0">
+                    <thead>
+                        <tr class="text-secondary">
+                            <th>Title</th>
+                            <th>Company</th>
+                            <th>Location</th>
+                            <th>Type</th>
+                            <th>Deadline</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for job in jobs %}
+                        <tr>
+                            <td class="fw-bold text-white">{{ job.title }}</td>
+                            <td>{{ job.company_name }}</td>
+                            <td><i class="bi bi-geo-alt small me-1"></i>{{ job.location }}</td>
+                            <td><span class="badge bg-secondary">{{ job.job_type }}</span></td>
+                            <td class="text-info">{{ job.deadline|date:"M d, Y" }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="{% url 'jobdetail' job.id %}" class="btn btn-sm btn-outline-primary">View</a>
+                                    {% if request.user.user_type == 'Recruiter' %}
+                                        <a href="{% url "editjob" job.id %}" class="btn btn-sm btn-outline-warning">Edit</a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center py-4 text-secondary">
+                                No job postings found.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

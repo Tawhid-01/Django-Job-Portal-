@@ -29,7 +29,8 @@
                             <th>Location</th>
                             <th>Type</th>
                             <th>Deadline</th>
-                            <th>Status</th>  <!-- Added Status column -->
+                            <th>Status</th>
+                           <th>Action</th> 
                         </tr>
                     </thead>
                     <tbody>
@@ -37,17 +38,17 @@
                         <tr>
                             <td class="fw-bold text-white">{{ a.job_seeker.name }}</td>
                             {% comment %} <td>{{  }}</td>  {% endcomment %}
-                            <td>{{ j.job.location }}</td> 
-                            <td><span class="badge bg-secondary">{{ a.job_seeker.name }}</span></td>
-                            <td class="text-info">{{ j.job.deadline|date:"M d, Y" }}</td>
+                            <td><span class="badge bg-secondary">{{ a.job.title }}</span></td>
+                             <td>{{ a.job.location }}</td> 
+                                <td><span class="badge bg-secondary">{{ a.job.job_type }}</span></td>
+                            <td class="text-info">{{ a.job.deadline|date:"M d, Y" }}</td>
                             <td>
-                                <span class="badge {% if j.status == 'Pending' %}bg-warning
-                                                 {% elif j.status == 'Shortlisted' %}bg-info
-                                                 {% elif j.status == 'Accepted' %}bg-success
-                                                 {% elif j.status == 'Rejected' %}bg-danger
-                                                 {% else %}bg-secondary{% endif %}">
-                                    {{ j.status }}
+                                  {{ a.status }}
                                 </span>
+                            </td>
+                            <td>
+                             <a href="{% url 'shortlist' a.id %}" class="btn btn-sm btn-info">Shortlist</a>
+                             <a href="{% url 'reject' a.id %}" class="btn btn-sm btn-danger">Reject</a>
                             </td>
                         </tr>
                         {% empty %}

@@ -27,13 +27,20 @@ class R_ProfileModel(models.Model):
 
     def __str__(self):
         return self.name
-    
+
+class Skill(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
 class S_ProfileModel(models.Model):
     user = models.OneToOneField(UserModel, on_delete=models.CASCADE , related_name='seeker')
     name = models.CharField(max_length=100,null=True,blank=True)
     contact = models.CharField(max_length=100,null=True,blank=True)
     address = models.CharField(max_length=100,null=True,blank=True)
-    skill = models.CharField(max_length=100,null=True,blank=True)
+    skill = models.ManyToManyField(Skill, blank=True)
     resume = models.FileField(upload_to='media/resume/',null=True,blank=True)
 
     def __str__(self):
@@ -50,7 +57,7 @@ class JobPostModel(models.Model):
     salary = models.CharField(max_length=100,null=True,blank=True)
     job_description = models.TextField(null=True,blank=True)
     deadline = models.DateTimeField(auto_now_add=False)
-    skill_set = models.CharField(max_length=100,null=True,blank=True)
+    skill_set = models.ManyToManyField(Skill, blank=True)
 
     def __str__(self):
         return self.title

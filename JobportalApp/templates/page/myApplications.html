@@ -29,7 +29,8 @@
                             <th>Location</th>
                             <th>Type</th>
                             <th>Deadline</th>
-                            <th>Status</th>  <!-- Added Status column -->
+                            <th>Status</th> 
+                         
                         </tr>
                     </thead>
                     <tbody>
@@ -40,15 +41,8 @@
                             <td>{{ j.job.location }}</td> 
                             <td><span class="badge bg-secondary">{{ j.job.job_type }}</span></td>
                             <td class="text-info">{{ j.job.deadline|date:"M d, Y" }}</td>
-                            <td>
-                                <span class="badge {% if j.status == 'Pending' %}bg-warning
-                                                 {% elif j.status == 'Shortlisted' %}bg-info
-                                                 {% elif j.status == 'Accepted' %}bg-success
-                                                 {% elif j.status == 'Rejected' %}bg-danger
-                                                 {% else %}bg-secondary{% endif %}">
-                                    {{ j.status }}
-                                </span>
-                            </td>
+                            <td>{{ j.status }}</td>
+                            
                         </tr>
                         {% empty %}
                         <tr>

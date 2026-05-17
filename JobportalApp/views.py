@@ -3,6 +3,7 @@ from .models import *
 from.forms import *
 from django.contrib.auth import login,logout
 from django.contrib import messages
+from django.db.models import Q
 
 
 # Create your views here.
@@ -45,12 +46,35 @@ def logoutPage(req):
     return redirect('login')
 
 def dashboardPage(req):
-    data = JobPostModel.objects.all()
+    search = req.GET.get('query')
+    if search:
+        data = JobPostModel.objects.filter(
+            Q(title__icontains=search)|
+            Q(job_description__icontains=search)|
+            Q(position__icontains=search)
+        )
+    else:
+        data = JobPostModel.objects.all()
     context = {
         'job_post':data
     }
 
     return render(req,'page/dashboard.html',context)
+
+def skillMatchPage(req):
+    try:
+         user = S_ProfileModel.objects.get(user=req.user)
+    except S_ProfileModel.DoesNotExist:
+        return redirect('seekerProfile')
+    
+    if user:
+        user_skill = user.skill.all()
+
+        jobs = JobPostModel.objects.filter(skill_set__in=user_skill).distinct()
+    context = {
+        'jobs': jobs
+    }
+    return render(req,'page/skill_dashboard.html',context)
 
 def viewJobPage(req,id):
     job = JobPostModel.objects.get(id=id)
@@ -135,6 +159,21 @@ def seekerProfilePage(req):
 
     return render(req,'base/base_form.html',context)
 
+def skillAddPage(req):
+    if req.method == 'POST':
+        form = SkillForm(req.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+
+    form = SkillForm()
+    context={
+        'form':form,
+        'title':'Add Skill',
+        'btn':'Submit'
+    }
+    return render(req,'base/base_form.html',context)
+
 def jobPostPage(req):
     if req.user.user_type == "Recruiter":
 
@@ -144,6 +183,7 @@ def jobPostPage(req):
                 data = form.save(commit=False)
                 data.user = req.user
                 data.save()
+                form.save_m2m() # ManyToManyField 
                 return redirect('dashboard')
 
     form = JobPostForm()
@@ -156,7 +196,7 @@ def jobPostPage(req):
 
 
 def applyJobPage(req,id):
-    user = req.user.seeker 
+    user = S_ProfileModel.objects.get(user=req.user)
     job = JobPostModel.objects.get(id=id)
 
     ApplyJobModel.objects.create(
@@ -187,3 +227,15 @@ def showApplicant(req,id):
         'applicants':applicant,
     }
     return render(req,'page/showApplicant.html',context)
+
+def shortList(req,id):
+    applicant = ApplyJobModel.objects.get(id=id)
+    applicant.status = 'Shortlisted'
+    applicant.save()
+    return redirect('viewApplicant')
+
+def rejectPage(req,id):
+    apply = ApplyJobModel.objects.get(id=id)
+    apply.status = "Rejected"
+    apply.save()
+    return redirect('viewApplicant')

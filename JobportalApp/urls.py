@@ -18,5 +18,11 @@ urlpatterns = [
 
     path('view-apply/',viewApplicantPage,name='viewApplicant'),
     path('showApplicant/<int:id>/',showApplicant,name='showApplicant'),
+
+    path('shortlist/<int:id>/',shortList,name='shortlist'),
+    path('reject/<int:id>/',rejectPage,name='reject'),
+
+    path('skill-match/',skillMatchPage,name='skillMatch'),
+    path('skill-add/',skillAddPage,name='skillAdd'),
     
 ]

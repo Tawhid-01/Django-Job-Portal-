@@ -34,6 +34,11 @@ class JobPostForm(forms.ModelForm):
             'deadline': forms.DateTimeInput(attrs={'type': 'datetime-local'})
         }
 
+class SkillForm(forms.ModelForm):
+    class Meta:
+        model = Skill
+        fields = '__all__'
+        
 # class ApplyJobForm(form.ModelForm):
 #     class Meta:
 #         model = ApplyJobModel
